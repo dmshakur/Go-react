@@ -1,0 +1,9 @@
+.White {
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.Black {
+  border-radius: 50%;
+  border: 2px solid black;
+}
