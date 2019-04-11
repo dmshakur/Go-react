@@ -5,32 +5,36 @@ import styles from './GameBoard.module.css'
 class GameBoard extends Component {
 
   state = {
-    tactical: {
+    tactInfo: {
       linkId: null, // corresponds to all the stones in a single chain
       openLinks: null, //number up to three, corresponds to the amount of trues in the Iff's
       topIff: null,
       rightIff: null,
       bottomIff: null,
       leftIff: null
+    },
+    boardElements: [],
+    boardData: [],
+    difficulty: {
+      easy: [81, {height: 324, width: 324}],
+      medium: [169, {height: 468, width: 468}],
+      go: [361, {height: 684, width: 684}]
     }
   }
 
-  var boardElements = []
-  var boardData = []
-
-  const boardGen = t => {
-    for (let i = 0; i < 361; i++) {
-      boardData.push(t)
-      boardElements.push(<Point />)
+  boardGen = (t, num) => {
+    for (let i = 0; i < num; i++) {
+      this.state.boardData.push(t)
+      this.state.boardElements.push(<Point pos={i} />)
     }
-    return boardElements
+    return this.state.boardElements
   }
 
   render() {
     return (
-      <div className={styles.GameBoard}>
+      <div style={this.state.difficulty.medium[1]} className={styles.GameBoard}>
         {
-          boardGen(this.state.tactical)
+          this.boardGen(this.state.tactInfo, this.state.difficulty.medium[0])
         }
       </div>
     )

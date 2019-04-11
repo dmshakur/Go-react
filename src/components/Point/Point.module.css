@@ -1,4 +1,32 @@
 .square {
-  background-color: #E6B84A;
-  border: 1px solid black;
+  background-color: #FCD995;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.nw {
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  width: 17px;
+  height: 17px;
+}
+.ne {
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  width: 17px;
+  height: 17px;
+}
+.sw {
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  width: 17px;
+  height: 17px;
+}
+.se {
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  width: 17px;
+  height: 17px;
 }

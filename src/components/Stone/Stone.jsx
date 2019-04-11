@@ -4,7 +4,7 @@ import styles from './Stone.module.css'
 class Stone extends Component {
 
   return (
-    <div tactical-{this.state.tactical} className={styles.Stone}>
+    <div className={styles.Stone}>
 
     </div>
   )

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 import GameBoard from '../../components/GameBoard/GameBoard'
 
 class App extends Component {
@@ -12,4 +12,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

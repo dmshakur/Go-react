@@ -1,7 +1,6 @@
 .GameBoard {
   display: flex;
-  flex-flow: row-wrap;
-  width: 684px;
-  height: 684px;
-  border: 6px solid black;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border: 6px solid #b29a69;
 }
