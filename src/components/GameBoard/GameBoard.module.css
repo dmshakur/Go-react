@@ -4,3 +4,9 @@
   flex-wrap: wrap;
   border: 6px solid #b29a69;
 }
+.GameBoard div:hover {
+  /* Display Black Piece, make transparent */
+}
+.GameBoard div:hover {
+  /* Display white Piecek make transparent */
+}

@@ -6,27 +6,24 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
+.square div {
+  width: 17px;
+  height: 17px;
+  pointer-events: none;
+}
 .nw {
   border-right: 1px solid black;
   border-bottom: 1px solid black;
-  width: 17px;
-  height: 17px;
 }
 .ne {
   border-left: 1px solid black;
   border-bottom: 1px solid black;
-  width: 17px;
-  height: 17px;
 }
 .sw {
   border-top: 1px solid black;
   border-right: 1px solid black;
-  width: 17px;
-  height: 17px;
 }
 .se {
   border-top: 1px solid black;
   border-left: 1px solid black;
-  width: 17px;
-  height: 17px;
 }
