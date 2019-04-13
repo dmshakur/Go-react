@@ -3,6 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyA3adSr3gKePH7J07FjS_SZVvpXAjyYQno",
+        authDomain: "go-react-alphabeta.firebaseapp.com",
+        databaseURL: "https://go-react-alphabeta.firebaseio.com",
+        projectId: "go-react-alphabeta",
+        storageBucket: "go-react-alphabeta.appspot.com",
+        messagingSenderId: "947800282985"
+      };
+      firebase.initializeApp(config);
+    </script>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"

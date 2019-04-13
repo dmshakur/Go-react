@@ -3,8 +3,7 @@ import styles from './Stone.module.css'
 
 // Traditionaly the black stones are slightly larger than the white
 
-class Stone extends Component {
-
+const Stone = props => {
   return (
     <div className={styles.Stone}>
 

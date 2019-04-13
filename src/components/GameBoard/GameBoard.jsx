@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
+import firebase from '../../firebaseConfig'
 import Point from '../Point/Point'
+import Stone from '../Stone/Stone'
 import styles from './GameBoard.module.css'
 
 const tactInfo = {
@@ -29,28 +31,51 @@ class GameBoard extends Component {
     currentChain: 0,
     elapsedTime: 0,
     isTiming: true,
+    turnCount: 0,
     stonesCount: {
       whiteCaptures: 0,
       whiteReserves: null,
       blackCaptures: 0,
       blackReserves: null
-    }
+    },
+    turnData: []
   }
 
   boardGen = (t, num) => { // For initialization of the board only
     for (let i = 0; i < num; i++) {
       this.state.boardPointsTact.push(t)
-      this.state.boardPoints.push(<Point pos={i}></Point>)
+      this.state.boardPoints.push(<Point onClick={this.handlePointClick} pos={i}></Point>)
     }
+
+    firebase.database().ref('turnData')
+    .set(this.state.turnData)
+    .then(() => console.log(""))
+    .catch(error => {
+      console.log("Error: ", error.message)
+    })
+
     return this.state.boardPoints
   }
 
   handleTurnChange = () => {
-
+    if (this.state.playerTurn === "black") {
+      this.setState({playerTurn: "white"})
+      this.setState({waitingPlayer: "black"})
+    } else {
+      this.setState({playerTurn: "black"})
+      this.setState({waitingPlayer: "white"})
+    }
   }
 
   boardRender = e => {
+    let tempBoardPointsTact = this.state.boardPointsTact
+    let tempBoardPoints = this.state.boardPoints
 
+    tempBoardPointsTact.map(obj => {
+      for (let i = 0; i < 360; i++) {
+        tempBoardPoints[i] = <Point onClick={this.handlePointClick} pos={i}><Stone className={styles.obj.piece} /></Point>
+      }
+    })
   }
 
   handleChainLinks = (pointTact, pos) => {
@@ -76,14 +101,15 @@ class GameBoard extends Component {
     if (mergeChains.length > 1) {
       // convert all links to have the same chainId then delete all the
       // old links from a copy of the chainId array, then replace the old with the new chainId
-      let newChainId = this.state.currentChain + 1
-      margeChains.map(cId => {
+      mergeChains.map(cId => {
         tempBoardPointsTact.map(ob => {
           if (ob.chainId === cId) ob.chainId = this.state.currentChain + 1
         })
       })
-      this.state.boardPointsTact = tempBoardPointsTact
-      this.state.currentChain += 1
+
+      this.setState({boardPointsTact: tempBoardPointsTact})
+      this.setState({boardPointsTact: tempBoardPointsTact})
+      this.setState({currentChain: this.state.currentChain + 1})
       return tempPointTact
     } else if (mergeChains.length === 1) {
       tempPointTact.chainId = mergeChains[0]
@@ -94,7 +120,6 @@ class GameBoard extends Component {
 
   handleTactChange = (pointTact, pos) => { // point represents an object holding all the tact data
     // Check surrounding areas links etc to determine how the state of the tactInfo should change
-    // +1 -1 +19 -19
     let tempPointData = pointTact
     let tempPos = pos
 
@@ -108,10 +133,10 @@ class GameBoard extends Component {
         tempPointData.leftIff === this.state.playerTurn ||
         tempPointData.topIff === this.state.playerTurn ||
         tempPointData.bottomIff === this.state.playerTurn) {
-      handleChainLinks(tempPointData, tempPos)
+      this.handleChainLinks(tempPointData, tempPos)
     } else {
-      tempPointData.chainId = currentChain + 1
-      currentChain += 1
+      tempPointData.chainId = this.state.currentChain + 1
+      this.setState({currentChain: this.state.currentChain + 1})
       return tempPointData
     }
   }
@@ -121,9 +146,13 @@ class GameBoard extends Component {
     let tempBoardPoints = this.state.boardPoints
     let tempBoardPointsTact = this.state.boardPointsTact
 
-    tempBoardPointsTact[targetPosition] = handleTactChange(tempBoardPointsTact[targetPosition], targetPosition)
-    this.state.boardPointsTact = tempBoardPointsTact
-    this.state.boardPoints = tempBoardPoints
+    console.log(targetPosition, tempBoardPoints, tempBoardPointsTact)
+
+    tempBoardPointsTact[targetPosition] = this.handleTactChange(tempBoardPointsTact[targetPosition], targetPosition)
+    this.setState({boardPointsTact: tempBoardPointsTact})
+    this.setState({boardPoints: tempBoardPoints})
+    this.handleTurnChange()
+    this.boardRender()
   }
 
   render() {
