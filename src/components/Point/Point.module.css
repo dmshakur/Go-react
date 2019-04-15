@@ -12,18 +12,18 @@
   pointer-events: none;
 }
 .nw {
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
+  border-right: 1px solid #854F35;
+  border-bottom: 1px solid #854F35;
 }
 .ne {
-  border-left: 1px solid black;
-  border-bottom: 1px solid black;
+  border-left: 1px solid #854F35;
+  border-bottom: 1px solid #854F35;
 }
 .sw {
-  border-top: 1px solid black;
-  border-right: 1px solid black;
+  border-top: 1px solid #854F35;
+  border-right: 1px solid #854F35;
 }
 .se {
-  border-top: 1px solid black;
-  border-left: 1px solid black;
+  border-top: 1px solid #854F35;
+  border-left: 1px solid #854F35;
 }

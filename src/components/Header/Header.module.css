@@ -1,0 +1,15 @@
+.go_nav_square {
+  float: left;
+  position: fixed;
+  background-color: #ffc166;
+  font-size: 75px;
+  font-family: 'Permanent Marker';
+  width: 250px;
+  height: 250px;
+  line-height: 250px;
+  user-select: none;
+}
+
+._title {
+  font-family: 'Ailerons';
+}

@@ -1,0 +1,13 @@
+._login {
+  text-align: center;
+}
+.main {
+  width: 70%;
+  grid-template-columns: 30% 70%;
+}
+.info {
+  grid-column: 1 / 2;
+}
+.game {
+  grid-column: 2 / 3;
+}

@@ -26,7 +26,7 @@ class GameBoard extends Component {
     playerTurn: "black", //Black always initiates the game
     waitingPlayer: "white",
     boardPoints: [],     // This is the array that will contain all the <Point /> elements to be rendered, I do not think that this should be used after it is first used, I think
-    boardPointsTact: [], // This is the information for every square which all have a copy of tactInfo in them
+    boardPointsTact: {}, // This is the information for every square which all have a copy of tactInfo in them
     chains: [],
     currentChain: 0,
     elapsedTime: 0,
@@ -42,17 +42,15 @@ class GameBoard extends Component {
   }
 
   boardGen = (t, num) => { // For initialization of the board only
+    let tempBoardPoints = []
+    let tempBoardPointsTact = {}
     for (let i = 0; i < num; i++) {
-      this.state.boardPointsTact.push(t)
-      this.state.boardPoints.push(<Point onClick={this.handlePointClick} pos={i}></Point>)
+      tempBoardPointsTact.i = t
+      tempBoardPoints.push(<Point onClick={this.handlePointClick} pos={i}></Point>)
     }
 
-    firebase.database().ref('turnData')
-    .set(this.state.turnData)
-    .then(() => console.log(""))
-    .catch(error => {
-      console.log("Error: ", error.message)
-    })
+    this.setState({boardPointsTact: tempBoardPointsTact})
+    this.setState({boardPoints: tempBoardPoints})
 
     return this.state.boardPoints
   }
@@ -142,6 +140,7 @@ class GameBoard extends Component {
   }
 
   handlePointClick = (e, playerTurn) => {
+    if (e.target.piece === "black" || e.target.piece === "white") return
     const targetPosition = e.target.pos
     let tempBoardPoints = this.state.boardPoints
     let tempBoardPointsTact = this.state.boardPointsTact
@@ -158,9 +157,11 @@ class GameBoard extends Component {
   render() {
     return (
       <div style={difficulty.medium[1]} className={styles.GameBoard}>
-        {
-          this.boardGen(tactInfo, difficulty.medium[0])
-        }
+        <div className={styles.outer_board}>
+          {
+            this.boardGen(tactInfo, difficulty.medium[0])
+          }
+        </div>
       </div>
     )
   }

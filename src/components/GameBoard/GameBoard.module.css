@@ -20,3 +20,6 @@ Point:hover {
   border-radius: 50%;
   border: 2px solid black;
 }
+.outer_board {
+  border: 10px solid #FCD995;
+}
