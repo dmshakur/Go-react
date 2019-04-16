@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'Ailerons';
+  src: url(./fonts/Ailerons.otf);
+}
+@font-face {
+  font-family: 'Accent';
+  src: url(./fonts/Accent.ttf);
+}
+._app {
+  height: 100%;
+  background-image: linear-gradient(69deg, #362d25 16.67%, #faebd7 16.67%, #faebd7 33.33%, #f0b27a 33.33%, #f0b27a 50%, #362d25 50%, #362d25 66.67%, #faebd7 66.67%, #faebd7 83.33%, #f0b27a 83.33%, #f0b27a 100%);
+  background-size: 64.27px 167.43px;
+}
+._title {
+  font-family: 'Josefin Sans';
+  font-weight: bold;
+  text-align: center;
+}
+._header {
+  background-color: blanchedalmond;
+}
+.bar_footer {
+  font-family: 'Libre Barcode 39';
+  background-color: #313233;
+  font-size: 24px;
+  color: blanchedalmond;
+  line-height: 48px;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}

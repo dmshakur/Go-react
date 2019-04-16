@@ -25,8 +25,10 @@ class GameBoard extends Component {
   state = {
     playerTurn: "black", //Black always initiates the game
     waitingPlayer: "white",
+    myColor: "",
     boardPoints: [],     // This is the array that will contain all the <Point /> elements to be rendered, I do not think that this should be used after it is first used, I think
     boardPointsTact: {}, // This is the information for every square which all have a copy of tactInfo in them
+    prevBoardPointsTact: {},
     chains: [],
     currentChain: 0,
     elapsedTime: 0,
@@ -74,6 +76,8 @@ class GameBoard extends Component {
         tempBoardPoints[i] = <Point onClick={this.handlePointClick} pos={i}><Stone className={styles.obj.piece} /></Point>
       }
     })
+    this.setState({boardPointsTact: tempBoardPointsTact})
+    this.setState({boardPoints: tempBoardPoints})
   }
 
   handleChainLinks = (pointTact, pos) => {
@@ -83,16 +87,16 @@ class GameBoard extends Component {
     let tempPointTact = pointTact // This is just the object of the single point clicked where a piece should be placed
 
     // Finding any friendly chains, then pushing them to the above array
-    if (this.state.boardPointsTact[pos - 1].piece === this.state.playerTurn) { //R
+    if (this.state.boardPointsTact[pos - 1].piece === this.state.playerTurn) {
       mergeChains.push(this.state.boardPointsTact[pos - 1].chainId)
     }
-    if (this.state.boardPointsTact[pos - 19].piece === this.state.playerTurn) { //T
+    if (this.state.boardPointsTact[pos - 19].piece === this.state.playerTurn) {
       mergeChains.push(this.state.boardPointsTact[pos - 19].chainId)
     }
-    if (this.state.boardPointsTact[pos + 1].piece === this.state.playerTurn) { //L
+    if (this.state.boardPointsTact[pos + 1].piece === this.state.playerTurn) {
       mergeChains.push(this.state.boardPointsTact[pos + 1].chainId)
     }
-    if (this.state.boardPointsTact[pos + 19].piece === this.state.playerTurn) { //B
+    if (this.state.boardPointsTact[pos + 19].piece === this.state.playerTurn) {
       mergeChains.push(this.state.boardPointsTact[pos + 19].chainId)
     }
 
@@ -152,6 +156,11 @@ class GameBoard extends Component {
     this.setState({boardPoints: tempBoardPoints})
     this.handleTurnChange()
     this.boardRender()
+
+    firebase.database().ref('users/' + this.props.user + '/game/')
+    .set({
+      state: this.state
+    })
   }
 
   render() {
@@ -159,7 +168,7 @@ class GameBoard extends Component {
       <div style={difficulty.medium[1]} className={styles.GameBoard}>
         <div className={styles.outer_board}>
           {
-            this.boardGen(tactInfo, difficulty.medium[0])
+            this.boardGen(tactInfo, difficulty)
           }
         </div>
       </div>

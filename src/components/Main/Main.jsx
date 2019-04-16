@@ -6,26 +6,36 @@ import GameBoard from '../GameBoard/GameBoard'
 
 const Main = props => {
   return (
-    <div className={styles.main}>
+    <div className={styles._main}>
       {
-        !props.isAuthenticated ? //Change back to props.isAuthenticated
-          <div>
-            <button onClick={props.handleLogout}>Logout</button>
-            <Profile />
-            {
+        props.isAuthenticated ? //Change back to props.isAuthenticated
+        <div>
+          {
             props.isGame ?
-              <GameBoard className={styles.game} />
+            <div>
+              <div className={styles.to_the_left}>
+                <Profile user={props.user}/>
+                <div className={styles._button} onClick={props.handleLogout}>Logout</div>
+              </div>
+              <GameBoard user={props.user} className={styles._game} />
+            </div>
             :
-              <div className={styles.game}>
-                <button onClick={props.handleGame}>Start A New Game</button>
+            <div>
+              <div className={styles.to_the_left}>
+                <Profile />
+                <div className={styles._button} onClick={props.handleLogout}>Logout</div>
+              </div>
+              <div className={styles._game}>
+                <div className={styles._button} onClick={props.handleGame}>Start A New Game</div>
                 <Games />
               </div>
-            }
-          </div>
+            </div>
+          }
+        </div>
         :
-          <div className={styles.login}>
-            <button onClick={props.handleLogin}>Log In</button>
-          </div>
+        <div className={styles._login}>
+          <div className={styles._button} onClick={props.handleLogin}>Log In</div>
+        </div>
       }
     </div>
   )

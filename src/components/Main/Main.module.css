@@ -1,13 +1,36 @@
 ._login {
   text-align: center;
 }
-.main {
-  width: 70%;
-  grid-template-columns: 30% 70%;
+._main {
+  max-width: 90%;
+  min-height: 80%;
+  display: flex;
+  margin: 0 auto;
+  border: 2px solid #313233;
+  background-color: blanchedalmond;
 }
-.info {
-  grid-column: 1 / 2;
+._button {
+  border: 1px solid black;
+  background-color: #803E00;
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  font-family: 'Josefin Sans';
+  line-height: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 10px;
+  margin: 10px;
 }
-.game {
-  grid-column: 2 / 3;
+._button:hover {
+  background-color: #F0B27A;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+._game {
+  width: 50%;
+  float: right;
+}
+.to_the_left {
+  float: left;
+  width: 50%;
 }

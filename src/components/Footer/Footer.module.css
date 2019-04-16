@@ -1,9 +1,6 @@
 .bar_footer {
   font-family: 'Libre Barcode 39';
   background-color: #313233;
-  /* min-height: 100vh; */
-}
-.bar_footer footer {
   height: 60px;
   text-align: center;
   font-size: 24px;

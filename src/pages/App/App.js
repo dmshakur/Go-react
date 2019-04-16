@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
 import firebase from '../../firebaseConfig'
 // import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
-import './App.css'
-import Home from '../Home/Home'
+import styles from  './App.module.css'
+import Main from '../../components/Main/Main'
 
 class App extends Component {
-
-  constructor() {
-    super()
-  }
 
   state = {
     timers: {},
     user: null,
+    userData: {},
     isGame: false,
     isAuthenticated: false
   }
@@ -55,10 +52,18 @@ class App extends Component {
     !this.state.isGame ? this.setState({isGame: true}) : this.setState({isGame: false})
   }
 
+  userDataCreation = () => {
+    
+  }
+
   render() {
     return (
-      <div className="App">
-        <Home
+      <div className={styles._app}>
+        <header className={styles._header}>
+          <h1 className={styles._title}>GO REACT</h1>
+        </header>
+        <Main
+          className={styles._app}
           isAuthenticated={this.state.isAuthenticated}
           isGame={this.state.isGame}
           user={this.state.user}
@@ -67,9 +72,12 @@ class App extends Component {
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
         />
+        <footer className={styles.bar_footer}>Made by Code Mcgyver and the FRN stack 04/19 status incomplete</footer>
       </div>
-    );
+    )
   }
 }
 
 export default App
+
+// -.. .----. .- -. --. . .-.. --- / -- .- .-.. -.-. --- .-.. -- / ... .... .- -.- ..- .-.
