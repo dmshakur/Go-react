@@ -3,35 +3,50 @@
   margin: auto auto;
 }
 ._main {
+  font-family: 'Josefin Sans';
   max-width: 90%;
   min-height: 80%;
-  display: flex;
+  /* display: flex */
   margin: 0 auto;
-  border: 2px solid #313233;
-  background-color: blanchedalmond;
+  margin-top: 90px;
 }
 ._button {
   border: 1px solid black;
-  background-color: #803E00;
-  border-radius: 5px;
+  background-color: #82b1ff;
+  border-radius: 2px;
   color: white;
   cursor: pointer;
   font-family: 'Josefin Sans';
   line-height: 30px;
-  height: 30px;
+  height: 40px;
   text-align: center;
-  padding: 10px;
-  margin: 10px;
 }
 ._button:hover {
-  background-color: #F0B27A;
+  background-color: #ed7e00;
+  color: black;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+._google {
+  border: 1px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+  padding: 5px;
+}
+._google:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: 1px solid #82b1ff;
+  border-radius: 50%;
+}
+._para {
+  font-size: 18px;
 }
 ._game {
   width: 50%;
   float: right;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .to_the_left {
+  margin-top: 80px;
   float: left;
   width: 50%;
 }

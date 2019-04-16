@@ -10,6 +10,7 @@ class App extends Component {
     timers: {},
     user: null,
     username: null,
+    gameDiff: '',
     isGame: false,
     isAuthenticated: false
   }
@@ -51,6 +52,8 @@ class App extends Component {
 
   handleGame = (e) => {
     e.preventDefault()
+    let diff = e.target.value
+    this.setState({gameDiff: diff})
     !this.state.isGame ? this.setState({isGame: true}) : this.setState({isGame: false})
   }
 
@@ -58,9 +61,15 @@ class App extends Component {
     return (
       <div className={styles._app}>
         <header className={styles._header}>
-          <h1 className={styles._title}>G O  R E A C T</h1>
+          <h1 className={styles._title}>GO</h1>
+          <span className={styles._FRN}>
+            <img alt={"firebase icon"} src={"https://img.icons8.com/color/48/000000/google-firebase-console.png"} />
+            <img alt={"react icon"} src={"https://img.icons8.com/ios/50/000000/react-native-filled.png"} />
+            <img alt={"node.js icon"} src={"https://img.icons8.com/color/48/000000/nodejs.png"} />
+          </span>
         </header>
         <Main
+          gameDiff={this.state.gameDiff}
           className={styles._app}
           isAuthenticated={this.state.isAuthenticated}
           isGame={this.state.isGame}
@@ -70,7 +79,7 @@ class App extends Component {
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
         />
-        <footer className={styles.bar_footer}>Made by Code Mcgyver and the FRN stack 04/19 status incomplete</footer>
+      <footer className={styles.bar_footer}>Made by Code Mcgyver and the FRN stack 04/19 status incomplete</footer>
       </div>
     )
   }

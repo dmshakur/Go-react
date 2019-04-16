@@ -23,6 +23,7 @@ const difficulty = { // Subtract one from the last number when used to set the w
 class GameBoard extends Component {
 
   state = {
+    isGame: false,
     playerTurn: "black", //Black always initiates the game
     waitingPlayer: "white",
     myColor: "",
@@ -42,20 +43,30 @@ class GameBoard extends Component {
     },
     turnData: []
   }
+  componentDidMount(){
 
+  }
   boardGen = (t, num) => { // For initialization of the board only
+    if (this.state.isGame) return
     let tempBoardPoints = []
     let tempBoardPointsTact = {}
     for (let i = 0; i < num; i++) {
-      tempBoardPointsTact.i = t
+      tempBoardPointsTact[i] = t
       tempBoardPoints.push(<Point onClick={this.handlePointClick} pos={i}></Point>)
     }
 
-    this.setState({boardPointsTact: tempBoardPointsTact})
-    this.setState({boardPoints: tempBoardPoints})
+    this.setState({boardPointsTact: tempBoardPointsTact, boardPoints: tempBoardPoints, isGame: true})
 
     return this.state.boardPoints
   }
+  // boardGen = (t, num) => {
+  //   for (let i = 0; i < num; i++) {
+  //     this.state.boardPointsTact.({i: t})
+  //     this.state.boardPoints.push(<Point onClick={this.handlePointClick} pos={i}></Point>)
+  //   }
+  //
+  //   return this.state.boardPoints
+  // }
 
   handleTurnChange = () => {
     if (this.state.playerTurn === "black") {
@@ -72,9 +83,10 @@ class GameBoard extends Component {
     let tempBoardPoints = this.state.boardPoints
 
     tempBoardPointsTact.map(obj => {
-      for (let i = 0; i < 360; i++) {
+      for (let i = 0; i < 360; i++) { // FIx this
         tempBoardPoints[i] = <Point onClick={this.handlePointClick} pos={i}><Stone className={styles.obj.piece} /></Point>
       }
+
     })
     this.setState({boardPointsTact: tempBoardPointsTact})
     this.setState({boardPoints: tempBoardPoints})
@@ -152,8 +164,7 @@ class GameBoard extends Component {
     console.log(targetPosition, tempBoardPoints, tempBoardPointsTact)
 
     tempBoardPointsTact[targetPosition] = this.handleTactChange(tempBoardPointsTact[targetPosition], targetPosition)
-    this.setState({boardPointsTact: tempBoardPointsTact})
-    this.setState({boardPoints: tempBoardPoints})
+    this.setState({boardPointsTact: tempBoardPointsTact, boardPoints: tempBoardPoints})
     this.handleTurnChange()
     this.boardRender()
 
@@ -165,10 +176,10 @@ class GameBoard extends Component {
 
   render() {
     return (
-      <div style={difficulty.medium[1]} className={styles.GameBoard}>
+      <div style={difficulty[this.props.gameDiff][1]} className={styles.GameBoard}>
         <div className={styles.outer_board}>
           {
-            this.boardGen(tactInfo, difficulty)
+            this.boardGen(tactInfo, 169)
           }
         </div>
       </div>
