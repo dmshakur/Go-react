@@ -9,7 +9,7 @@ class App extends Component {
   state = {
     timers: {},
     user: null,
-    userData: {},
+    username: null,
     isGame: false,
     isAuthenticated: false
   }
@@ -32,8 +32,9 @@ class App extends Component {
   handleLogin = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
-    .then(() => {
-      console.log("User Logged In Successfully")
+    .then(result => {
+      this.setState({username: result.displayName})
+      console.log("User Logged In Successfully", this.state.user)
     })
     .catch(error => {
       console.log("Something Went Wrong: ", error.message)
@@ -48,25 +49,22 @@ class App extends Component {
     .catch(error => {console.log("Something went wrong: ", error.message)})
   }
 
-  handleGame = () => {
+  handleGame = (e) => {
+    e.preventDefault()
     !this.state.isGame ? this.setState({isGame: true}) : this.setState({isGame: false})
-  }
-
-  userDataCreation = () => {
-    
   }
 
   render() {
     return (
       <div className={styles._app}>
         <header className={styles._header}>
-          <h1 className={styles._title}>GO REACT</h1>
+          <h1 className={styles._title}>G O  R E A C T</h1>
         </header>
         <Main
           className={styles._app}
           isAuthenticated={this.state.isAuthenticated}
           isGame={this.state.isGame}
-          user={this.state.user}
+          username={this.state.username}
           handleGame={this.handleGame}
           handleChange={this.handleChange}
           handleLogin={this.handleLogin}

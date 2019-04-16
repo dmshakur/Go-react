@@ -1,5 +1,6 @@
 ._login {
   text-align: center;
+  margin: auto auto;
 }
 ._main {
   max-width: 90%;
@@ -12,7 +13,7 @@
 ._button {
   border: 1px solid black;
   background-color: #803E00;
-  border-radius: 2px;
+  border-radius: 5px;
   color: white;
   cursor: pointer;
   font-family: 'Josefin Sans';

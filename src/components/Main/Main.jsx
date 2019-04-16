@@ -26,7 +26,10 @@ const Main = props => {
                 <div className={styles._button} onClick={props.handleLogout}>Logout</div>
               </div>
               <div className={styles._game}>
-                <div className={styles._button} onClick={props.handleGame}>Start A New Game</div>
+                <form onSubmit={props.handleGame}>
+                  <input />
+                  <button className={styles._button} onClick={props.handleGame}>Start A New Game</button>
+                </form>
                 <Games />
               </div>
             </div>
@@ -34,7 +37,7 @@ const Main = props => {
         </div>
         :
         <div className={styles._login}>
-          <div className={styles._button} onClick={props.handleLogin}>Log In</div>
+          <div className={styles._button} onClick={props.handleLogin}>Log in with Google</div>
         </div>
       }
     </div>
