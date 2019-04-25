@@ -5,9 +5,9 @@ import Stone from '../Stone/Stone'
 import styles from './GameBoard.module.css'
 
 const tactInfo = {
-  piece: "free", // Either black or white
-  chainId: null, // corresponds to all the stones in a single chain
-  openLinks: null, //number up to three, corresponds to the amount of trues in the Iff's Might need to get rid of this in favor of a more efficent operation
+  piece: "free",   // Either black or white
+  chainId: null,   // corresponds to all the stones in a single chain
+  openLinks: null, // number up to three, corresponds to the amount of trues in the Iff's Might need to get rid of this in favor of a more efficent operation
   topIff: null,
   rightIff: null,
   bottomIff: null,
@@ -23,7 +23,6 @@ const difficulty = { // Subtract one from the last number when used to set the w
 class GameBoard extends Component {
 
   state = {
-    isGame: false,
     playerTurn: "black", //Black always initiates the game
     waitingPlayer: "white",
     myColor: "",
@@ -33,8 +32,8 @@ class GameBoard extends Component {
     chains: [],
     currentChain: 0,
     elapsedTime: 0,
-    isTiming: true,
     turnCount: 0,
+    isTiming: true,
     stonesCount: {
       whiteCaptures: 0,
       whiteReserves: null,
@@ -43,38 +42,12 @@ class GameBoard extends Component {
     },
     turnData: []
   }
-  componentDidMount(){
-
-  }
-  boardGen = (t, num) => { // For initialization of the board only
-    if (this.state.isGame) return
-    let tempBoardPoints = []
-    let tempBoardPointsTact = {}
-    for (let i = 0; i < num; i++) {
-      tempBoardPointsTact[i] = t
-      tempBoardPoints.push(<Point onClick={this.handlePointClick} pos={i}></Point>)
-    }
-
-    this.setState({boardPointsTact: tempBoardPointsTact, boardPoints: tempBoardPoints, isGame: true})
-
-    return this.state.boardPoints
-  }
-  // boardGen = (t, num) => {
-  //   for (let i = 0; i < num; i++) {
-  //     this.state.boardPointsTact.({i: t})
-  //     this.state.boardPoints.push(<Point onClick={this.handlePointClick} pos={i}></Point>)
-  //   }
-  //
-  //   return this.state.boardPoints
-  // }
 
   handleTurnChange = () => {
     if (this.state.playerTurn === "black") {
-      this.setState({playerTurn: "white"})
-      this.setState({waitingPlayer: "black"})
+      this.setState({playerTurn: "white", waitingPlayer: "black"})
     } else {
-      this.setState({playerTurn: "black"})
-      this.setState({waitingPlayer: "white"})
+      this.setState({playerTurn: "black", waitingPlayer: "white"})
     }
   }
 
@@ -83,13 +56,13 @@ class GameBoard extends Component {
     let tempBoardPoints = this.state.boardPoints
 
     tempBoardPointsTact.map(obj => {
-      for (let i = 0; i < 360; i++) { // FIx this
-        tempBoardPoints[i] = <Point onClick={this.handlePointClick} pos={i}><Stone className={styles.obj.piece} /></Point>
+      for (let i = 0; i < 360; i++) { // Fix this
+        if (tempBoardPoints[i] !== "free") {
+           tempBoardPoints[i] = <Point onClick={this.handlePointClick} pos={i}><Stone className={styles.obj.piece} /></Point>
+        }
       }
-
     })
-    this.setState({boardPointsTact: tempBoardPointsTact})
-    this.setState({boardPoints: tempBoardPoints})
+    this.setState({boardPointsTact: tempBoardPointsTact, boardPoints: tempBoardPoints})
   }
 
   handleChainLinks = (pointTact, pos) => {
@@ -121,21 +94,17 @@ class GameBoard extends Component {
         })
       })
 
-      this.setState({boardPointsTact: tempBoardPointsTact})
-      this.setState({boardPointsTact: tempBoardPointsTact})
-      this.setState({currentChain: this.state.currentChain + 1})
+      this.setState({boardPointsTact: tempBoardPointsTact, currentChain: this.state.currentChain + 1, boardPointsTact: tempPointTact})
       return tempPointTact
     } else if (mergeChains.length === 1) {
       tempPointTact.chainId = mergeChains[0]
       return tempPointTact
     }
-
   }
 
   handleTactChange = (pointTact, pos) => { // point represents an object holding all the tact data
     // Check surrounding areas links etc to determine how the state of the tactInfo should change
     let tempPointData = pointTact
-    let tempPos = pos
 
     // Setting the IFF's below
     pos - 1 < 0    ? tempPointData.rightIff = this.state.waitingPlayer : tempPointData.rightIff = this.state.boardPointsTact[pos - 1].piece
@@ -147,7 +116,7 @@ class GameBoard extends Component {
         tempPointData.leftIff === this.state.playerTurn ||
         tempPointData.topIff === this.state.playerTurn ||
         tempPointData.bottomIff === this.state.playerTurn) {
-      this.handleChainLinks(tempPointData, tempPos)
+      this.handleChainLinks(tempPointData, pos)
     } else {
       tempPointData.chainId = this.state.currentChain + 1
       this.setState({currentChain: this.state.currentChain + 1})
@@ -161,26 +130,26 @@ class GameBoard extends Component {
     let tempBoardPoints = this.state.boardPoints
     let tempBoardPointsTact = this.state.boardPointsTact
 
-    console.log(targetPosition, tempBoardPoints, tempBoardPointsTact)
-
     tempBoardPointsTact[targetPosition] = this.handleTactChange(tempBoardPointsTact[targetPosition], targetPosition)
     this.setState({boardPointsTact: tempBoardPointsTact, boardPoints: tempBoardPoints})
     this.handleTurnChange()
     this.boardRender()
 
-    firebase.database().ref('users/' + this.props.user + '/game/')
-    .set({
-      state: this.state
-    })
+    // firebase.database().ref('users/' + this.props.user + '/game/')
+    // .set({
+    //   state: this.state
+    // })
   }
 
   render() {
     return (
-      <div style={difficulty[this.props.gameDiff][1]} className={styles.GameBoard}>
+      <div style={difficulty.medium[1]} className={styles.GameBoard}>
         <div className={styles.outer_board}>
-          {
-            this.boardGen(tactInfo, 169)
-          }
+          <BoardGen
+            boardPoints={this.state.boardpoints}
+            boardPointsTact={this.state.boardpointsTact}
+            num={difficulty.medium[0]}
+          />
         </div>
       </div>
     )

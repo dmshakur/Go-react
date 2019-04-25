@@ -19,7 +19,9 @@ const Main = props => {
                 <Profile user={props.user}/>
                 <img className={styles._google} onClick={props.handleLogout} src={"https://img.icons8.com/clouds/50/000000/google-logo.png"} />
               </div>
-              <GameBoard gameDiff={props.gameDiff} user={props.user} className={styles._game} />
+              <div id="game_board">
+                <GameBoard gameDiff={props.gameDiff} user={props.user} className={styles._game} />
+              </div>
             </div>
             :
             <div>
@@ -29,6 +31,7 @@ const Main = props => {
               </div>
               <div className={styles._game}>
                 <h1>Start A New Game:</h1>
+                {/* Pass a gameId down to the gameboard when a new game is started */}
                 <button className={styles._button} value={'easy'} onClick={props.handleGame}>Easy</button>
                 <button className={styles._button} value={'medium'} onClick={props.handleGame}>Medium</button>
                 <button className={styles._button} value={'go'} onClick={props.handleGame}>Go</button>
