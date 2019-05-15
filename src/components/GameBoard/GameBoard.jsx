@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import firebase from '../../firebaseConfig'
 import Point from '../Point/Point'
 import Stone from '../Stone/Stone'
 import styles from './GameBoard.module.css'
@@ -52,7 +51,7 @@ class GameBoard extends Component {
     let tempBoardPointsTact = {}
     for (let i = 0; i < num; i++) {
       tempBoardPointsTact[i] = tactInfo
-      tempBoardPoints.push(<Point handlePointClick={this.handlePointClick} pos={i}></Point>)
+      tempBoardPoints.push(<Point handlePointClick={this.handlePointClick} pos={i} />)
     }
     this.setState({
       boardPointsTact: tempBoardPointsTact,
@@ -127,10 +126,10 @@ class GameBoard extends Component {
     let tempPointData = this.state.boardPointsTact[pos]
 
     // Setting the IFF's below
-    pos - 1 < 0    ? tempPointData.rightIff = this.state.waitingPlayer : tempPointData.rightIff = this.state.boardPointsTact[toString(pos - 1)].piece
-    pos - 19 < 0   ? tempPointData.toptIff = this.state.waitingPlayer : tempPointData.topIff = this.state.boardPointsTact[toString(pos - 19)].piece
-    pos + 1 > 360  ? tempPointData.leftIff = this.state.waitingPlayer : tempPointData.leftIff = this.state.boardPointsTact[toString(pos + 1)].piece
-    pos + 19 > 360 ? tempPointData.bottomIff = this.state.waitingPlayer : tempPointData.bottomIff = this.state.boardPointsTact[toString(pos + 19)].piece
+    pos - 1 < 0    ? tempPointData.rightIff  = this.state.waitingPlayer : tempPointData.rightIff  = this.state.boardPointsTact[pos - 1].piece
+    pos - 19 < 0   ? tempPointData.toptIff   = this.state.waitingPlayer : tempPointData.topIff    = this.state.boardPointsTact[pos - 19].piece
+    pos + 1 > 360  ? tempPointData.leftIff   = this.state.waitingPlayer : tempPointData.leftIff   = this.state.boardPointsTact[pos + 1].piece
+    pos + 19 > 360 ? tempPointData.bottomIff = this.state.waitingPlayer : tempPointData.bottomIff = this.state.boardPointsTact[pos + 19].piece
 
     if (tempPointData.rightIff === this.state.playerTurn ||
         tempPointData.leftIff === this.state.playerTurn ||
@@ -144,7 +143,7 @@ class GameBoard extends Component {
     }
   }
 
-  handlePointClick = e => { // Function that is triggered on click of a div where a go piece is placeable
+  handlePointClick = (e) => { // Function that is triggered on click of a div where a go piece is placeable
     e.preventDefault()
     if (e.target.piece === "black" || e.target.piece === "white") return
     let tempBoardPoints = this.state.boardPoints
@@ -153,11 +152,6 @@ class GameBoard extends Component {
     // this.setState({boardPointsTact: tempBoardPointsTact, boardPoints: tempBoardPoints})
     this.handleTurnChange()
     this.boardRender()
-
-    // firebase.database().ref('users/' + this.props.user + '/game/') // Need to make it so the folder structure is as follows
-    // .set({                                                         // 'games/' + this.props.user + '/' + this.props.'opponent' + '/' + gameid
-    //   state: this.state.boardPointsTact
-    // })
   }
 
   componentWillMount() {
