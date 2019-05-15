@@ -1,0 +1,5 @@
+Have a two column layout for the main page that diverts to a single column view with less scrolling
+The first column will be the forum feed the next will be games
+
+
+remember: access the <Point /> in react with bracket notation

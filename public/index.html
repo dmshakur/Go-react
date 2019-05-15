@@ -5,19 +5,24 @@
     <link rel="shortcut icon" href="%PUBLIC_URL%/go-ico.ico" />
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Libre+Barcode+39|Manuale|Permanent+Marker" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
-    <!-- <script src="/__/firebase/5.9.4/firebase-auth.js"></script>
-    <script src="/__/firebase/5.9.4/firebase-database.js"></script> -->
-    <script>
-      var config = {
-        apiKey: "AIzaSyA3adSr3gKePH7J07FjS_SZVvpXAjyYQno",
-        authDomain: "go-react-alphabeta.firebaseapp.com",
-        databaseURL: "https://go-react-alphabeta.firebaseio.com",
-        projectId: "go-react-alphabeta",
-        storageBucket: "go-react-alphabeta.appspot.com",
-        messagingSenderId: "947800282985"
-      }
-      firebase.initializeApp(config)
-    </script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyA3adSr3gKePH7J07FjS_SZVvpXAjyYQno",
+    authDomain: "go-react-alphabeta.firebaseapp.com",
+    databaseURL: "https://go-react-alphabeta.firebaseio.com",
+    projectId: "go-react-alphabeta",
+    storageBucket: "go-react-alphabeta.appspot.com",
+    messagingSenderId: "947800282985",
+    appId: "1:947800282985:web:05d213de6ecf7202"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
     <style>
       html, body, #root {
         height: 100vh;

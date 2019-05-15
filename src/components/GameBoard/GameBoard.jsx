@@ -4,6 +4,12 @@ import Point from '../Point/Point'
 import Stone from '../Stone/Stone'
 import styles from './GameBoard.module.css'
 
+const difficulty = { // Subtract one from the last number when used to set the white reserves
+  easy: [81, {height: 324, width: 324}, 41],
+  medium: [169, {height: 468, width: 468}, 85],
+  go: [361, {height: 684, width: 684}, 181]
+}
+
 const tactInfo = {
   piece: "free",   // Either black or white
   chainId: null,   // corresponds to all the stones in a single chain
@@ -14,33 +20,47 @@ const tactInfo = {
   leftIff: null
 }
 
-const difficulty = { // Subtract one from the last number when used to set the white reserves
-  easy: [81, {height: 324, width: 324}, 41],
-  medium: [169, {height: 468, width: 468}, 85],
-  go: [361, {height: 684, width: 684}, 181]
-}
-
 class GameBoard extends Component {
 
-  state = {
-    playerTurn: "black", //Black always initiates the game
-    waitingPlayer: "white",
-    myColor: "",
-    boardPoints: [],     // This is the array that will contain all the <Point /> elements to be rendered, I do not think that this should be used after it is first used, I think
-    boardPointsTact: {}, // This is the information for every square which all have a copy of tactInfo in them
-    prevBoardPointsTact: {},
-    chains: [],
-    currentChain: 0,
-    elapsedTime: 0,
-    turnCount: 0,
-    isTiming: true,
-    stonesCount: {
-      whiteCaptures: 0,
-      whiteReserves: null,
-      blackCaptures: 0,
-      blackReserves: null
-    },
-    turnData: []
+  constructor(props) {
+    super(props)
+    this.state = {
+      playerTurn: "black", //Black always initiates the game
+      waitingPlayer: "white",
+      myColor: "",
+      boardPoints: [],     // This is the array that will contain all the <Point /> elements to be rendered, I do not think that this should be used after it is first used, I think
+      boardPointsTact: {}, // This is the information for every square which all have a copy of tactInfo in them
+      prevBoardPointsTact: {},
+      chains: [],
+      currentChain: 0,
+      elapsedTime: 0,
+      turnCount: 0,
+      isTiming: true,
+      stonesCount: {
+        whiteCaptures: 0,
+        whiteReserves: null,
+        blackCaptures: 0,
+        blackReserves: null
+      },
+      turnData: []
+    }
+    // this.handlePointClick = this.handlePointClick.bind(this)
+  }
+
+  boardGen = num => { // For initialization of the board only
+    let tempBoardPoints = []
+    let tempBoardPointsTact = {}
+    for (let i = 0; i < num; i++) {
+      tempBoardPointsTact[i] = tactInfo
+      tempBoardPoints.push(<Point handlePointClick={this.handlePointClick} pos={i}></Point>)
+    }
+    this.setState({
+      boardPointsTact: tempBoardPointsTact,
+      boardPoints: tempBoardPoints,
+      stonesCount: {
+        whiteReserves: (difficulty[this.props.gameDiff][2] - 1),
+        blackReserves: difficulty[this.props.gameDiff][2]}
+    })
   }
 
   handleTurnChange = () => {
@@ -56,9 +76,9 @@ class GameBoard extends Component {
     let tempBoardPoints = this.state.boardPoints
 
     tempBoardPointsTact.map(obj => {
-      for (let i = 0; i < 360; i++) { // Fix this
-        if (tempBoardPoints[i] !== "free") {
-           tempBoardPoints[i] = <Point onClick={this.handlePointClick} pos={i}><Stone className={styles.obj.piece} /></Point>
+      for (let i = 0; i < difficulty[this.props.gameDiff][0]; i++) {
+        if (obj[i].piece !== "free") {
+           tempBoardPoints[i] = <Point onClick={this.handlePointClick} pos={i}><Stone className={styles[obj.piece]} /></Point>
         }
       }
     })
@@ -94,7 +114,7 @@ class GameBoard extends Component {
         })
       })
 
-      this.setState({boardPointsTact: tempBoardPointsTact, currentChain: this.state.currentChain + 1, boardPointsTact: tempPointTact})
+      this.setState({currentChain: this.state.currentChain + 1, boardPointsTact: tempPointTact})
       return tempPointTact
     } else if (mergeChains.length === 1) {
       tempPointTact.chainId = mergeChains[0]
@@ -104,13 +124,13 @@ class GameBoard extends Component {
 
   handleTactChange = (pointTact, pos) => { // point represents an object holding all the tact data
     // Check surrounding areas links etc to determine how the state of the tactInfo should change
-    let tempPointData = pointTact
+    let tempPointData = this.state.boardPointsTact[pos]
 
     // Setting the IFF's below
-    pos - 1 < 0    ? tempPointData.rightIff = this.state.waitingPlayer : tempPointData.rightIff = this.state.boardPointsTact[pos - 1].piece
-    pos - 19 < 0   ? tempPointData.toptIff = this.state.waitingPlayer : tempPointData.topIff = this.state.boardPointsTact[pos - 19].piece
-    pos + 1 > 360  ? tempPointData.leftIff = this.state.waitingPlayer : tempPointData.leftIff = this.state.boardPointsTact[pos + 1].piece
-    pos + 19 > 360 ? tempPointData.bottomIff = this.state.waitingPlayer : tempPointData.bottomIff = this.state.boardPointsTact[pos + 19].piece
+    pos - 1 < 0    ? tempPointData.rightIff = this.state.waitingPlayer : tempPointData.rightIff = this.state.boardPointsTact[toString(pos - 1)].piece
+    pos - 19 < 0   ? tempPointData.toptIff = this.state.waitingPlayer : tempPointData.topIff = this.state.boardPointsTact[toString(pos - 19)].piece
+    pos + 1 > 360  ? tempPointData.leftIff = this.state.waitingPlayer : tempPointData.leftIff = this.state.boardPointsTact[toString(pos + 1)].piece
+    pos + 19 > 360 ? tempPointData.bottomIff = this.state.waitingPlayer : tempPointData.bottomIff = this.state.boardPointsTact[toString(pos + 19)].piece
 
     if (tempPointData.rightIff === this.state.playerTurn ||
         tempPointData.leftIff === this.state.playerTurn ||
@@ -124,33 +144,32 @@ class GameBoard extends Component {
     }
   }
 
-  handlePointClick = (e, playerTurn) => {
+  handlePointClick = e => { // Function that is triggered on click of a div where a go piece is placeable
+    e.preventDefault()
     if (e.target.piece === "black" || e.target.piece === "white") return
-    const targetPosition = e.target.pos
     let tempBoardPoints = this.state.boardPoints
     let tempBoardPointsTact = this.state.boardPointsTact
-
-    tempBoardPointsTact[targetPosition] = this.handleTactChange(tempBoardPointsTact[targetPosition], targetPosition)
-    this.setState({boardPointsTact: tempBoardPointsTact, boardPoints: tempBoardPoints})
+    tempBoardPointsTact[e.target.pos] = this.handleTactChange(tempBoardPointsTact[e.target.pos], e.target.pos)
+    // this.setState({boardPointsTact: tempBoardPointsTact, boardPoints: tempBoardPoints})
     this.handleTurnChange()
     this.boardRender()
 
-    // firebase.database().ref('users/' + this.props.user + '/game/')
-    // .set({
-    //   state: this.state
+    // firebase.database().ref('users/' + this.props.user + '/game/') // Need to make it so the folder structure is as follows
+    // .set({                                                         // 'games/' + this.props.user + '/' + this.props.'opponent' + '/' + gameid
+    //   state: this.state.boardPointsTact
     // })
+  }
+
+  componentWillMount() {
+    this.boardGen(difficulty[this.props.gameDiff][0])
   }
 
   render() {
     return (
-      <div style={difficulty.medium[1]} className={styles.GameBoard}>
-        <div className={styles.outer_board}>
-          <BoardGen
-            boardPoints={this.state.boardpoints}
-            boardPointsTact={this.state.boardpointsTact}
-            num={difficulty.medium[0]}
-          />
-        </div>
+      <div style={difficulty[this.props.gameDiff][1]} className={styles.GameBoard}>
+        {
+          this.state.boardPoints
+        }
       </div>
     )
   }

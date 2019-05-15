@@ -8,17 +8,19 @@ Point:hover {
   /* Display Black Piece, make transparent */
 }
 Point:hover {
-  /* Display white Piecek make transparent */
+  /* Display white Piece make transparent */
 }
 .White {
   width: 28px;
   border-radius: 50%;
   border: 2px solid white;
+  position: absolute;
 }
 .Black {
   width: 28px;
   border-radius: 50%;
   border: 2px solid black;
+  position: absolute;
 }
 .outer_board {
   border: 10px solid #FCD995;

@@ -4,17 +4,12 @@
 }
 ._main {
   font-family: 'Josefin Sans';
-  max-width: 90%;
-  min-height: 80%;
-  /* display: flex */
   margin: 0 auto;
-  margin-top: 90px;
 }
 ._button {
   border: 1px solid black;
-  background-color: #82b1ff;
+  background-color: #f7f7f7;
   border-radius: 2px;
-  color: white;
   cursor: pointer;
   font-family: 'Josefin Sans';
   line-height: 30px;
@@ -22,7 +17,7 @@
   text-align: center;
 }
 ._button:hover {
-  background-color: #ed7e00;
+  background-color: #d3d3d3;
   color: black;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -42,8 +37,7 @@
 ._game {
   width: 50%;
   float: right;
-  margin-top: auto;
-  margin-bottom: auto;
+  margin: 0 auto;
 }
 .to_the_left {
   margin-top: 80px;
