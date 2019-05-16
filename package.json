@@ -23,7 +23,7 @@
     "con": "concurrently \"npm run react\" \"npm run server\"",
     "original-start": "npm run react",
     "start": "node server.js",
-    "predeploy": "yarn run build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "react": "react-scripts start",
     "server": "node server.js",
