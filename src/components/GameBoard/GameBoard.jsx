@@ -51,7 +51,7 @@ class GameBoard extends Component {
     let tempBoardPointsTact = {}
     for (let i = 0; i < num; i++) {
       tempBoardPointsTact[i] = tactInfo
-      tempBoardPoints.push(<Point handlePointClick={this.handlePointClick} pos={i} />)
+      tempBoardPoints.push(<Point handlePointClick={(i) => this.handlePointClick(this, i)} pos={i} />)
     }
     this.setState({
       boardPointsTact: tempBoardPointsTact,
@@ -82,7 +82,7 @@ class GameBoard extends Component {
       }
     })
     this.setState({boardPointsTact: tempBoardPointsTact, boardPoints: tempBoardPoints})
-  }
+  // }
 
   handleChainLinks = (pointTact, pos) => {
 
@@ -121,7 +121,7 @@ class GameBoard extends Component {
     }
   }
 
-  handleTactChange = (pointTact, pos) => { // point represents an object holding all the tact data
+  // handleTactChange = (pointTact, pos) => { // point represents an object holding all the tact data
     // Check surrounding areas links etc to determine how the state of the tactInfo should change
     let tempPointData = this.state.boardPointsTact[pos]
 
@@ -140,15 +140,15 @@ class GameBoard extends Component {
       tempPointData.chainId = this.state.currentChain + 1
       this.setState({currentChain: this.state.currentChain + 1})
       return tempPointData
-    }
+    // }
   }
 
-  handlePointClick = (e) => { // Function that is triggered on click of a div where a go piece is placeable
+  handlePointClick = (e, pos) => { // Function that is triggered on click of a div where a go piece is placeable
     e.preventDefault()
     if (e.target.piece === "black" || e.target.piece === "white") return
     let tempBoardPoints = this.state.boardPoints
     let tempBoardPointsTact = this.state.boardPointsTact
-    tempBoardPointsTact[e.target.pos] = this.handleTactChange(tempBoardPointsTact[e.target.pos], e.target.pos)
+    tempBoardPointsTact[pos] = this.handleTactChange(tempBoardPointsTact[pos], pos)
     // this.setState({boardPointsTact: tempBoardPointsTact, boardPoints: tempBoardPoints})
     this.handleTurnChange()
     this.boardRender()
