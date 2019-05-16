@@ -3,7 +3,6 @@ import firebase from '../../firebaseConfig'
 import styles from  './App.module.scss'
 import './App.fonts.scss'
 import go from '../../pages/App/img/go.png'
-import Profile from '../../components/Profile/Profile'
 import Games from '../../components/Games/Games'
 import GameBoard from '../../components/GameBoard/GameBoard'
 
