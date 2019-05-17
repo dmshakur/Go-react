@@ -7,6 +7,10 @@
     "npm": "6.9.0",
     "node": "12.2.0"
   },
+  "devDependencies": {
+    "gh-pages": "^2.0.1",
+    "react-scripts": "1.0.13"
+  },
   "dependencies": {
     "express": "^4.16.4",
     "firebase": "^5.9.3",
