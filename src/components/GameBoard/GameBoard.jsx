@@ -43,7 +43,6 @@ class GameBoard extends Component {
       },
       turnData: []
     }
-    // this.handlePointClick = this.handlePointClick.bind(this)
   }
 
   boardGen = num => { // For initialization of the board only
@@ -51,7 +50,7 @@ class GameBoard extends Component {
     let tempBoardPointsTact = {}
     for (let i = 0; i < num; i++) {
       tempBoardPointsTact[i] = tactInfo
-      tempBoardPoints.push(<Point handlePointClick={this.handlePointClick} pos={i} />)
+      tempBoardPoints.push(<Point handlePointClick={this.handlePointClick.bind(this, i)} pos={i} />)
     }
     this.setState({
       boardPointsTact: tempBoardPointsTact,
@@ -85,11 +84,9 @@ class GameBoard extends Component {
   }
 
   handleChainLinks = (pointTact, pos) => {
-
     let mergeChains = []
     let tempBoardPointsTact = this.state.boardPointsTact
     let tempPointTact = pointTact // This is just the object of the single point clicked where a piece should be placed
-
     // Finding any friendly chains, then pushing them to the above array
     if (this.state.boardPointsTact[pos - 1].piece === this.state.playerTurn) {
       mergeChains.push(this.state.boardPointsTact[pos - 1].chainId)
@@ -103,7 +100,6 @@ class GameBoard extends Component {
     if (this.state.boardPointsTact[pos + 19].piece === this.state.playerTurn) {
       mergeChains.push(this.state.boardPointsTact[pos + 19].chainId)
     }
-
     if (mergeChains.length > 1) {
       // convert all links to have the same chainId then delete all the
       // old links from a copy of the chainId array, then replace the old with the new chainId
@@ -112,7 +108,6 @@ class GameBoard extends Component {
           if (ob.chainId === cId) ob.chainId = this.state.currentChain + 1
         })
       })
-
       this.setState({currentChain: this.state.currentChain + 1, boardPointsTact: tempPointTact})
       return tempPointTact
     } else if (mergeChains.length === 1) {
@@ -143,8 +138,9 @@ class GameBoard extends Component {
     }
   }
 
-  handlePointClick = (e) => { // Function that is triggered on click of a div where a go piece is placeable
+  handlePointClick = (e, pos) => { // Function that is triggered on click of a div where a go piece is placeable
     e.preventDefault()
+    console.log(e.target.piece)
     if (e.target.piece === "black" || e.target.piece === "white") return
     let tempBoardPoints = this.state.boardPoints
     let tempBoardPointsTact = this.state.boardPointsTact

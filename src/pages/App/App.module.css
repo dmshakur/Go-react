@@ -1,7 +1,7 @@
-$color: (
-  "light": #f7f7f7,
-  "dark": #d3d3d3
-);
+:root {
+  --light: #f7f7f7;
+  --dark: #d3d3d3;
+}
 
 ._app {
   height: 100%;
@@ -19,10 +19,10 @@ $color: (
   list-style-type: none;
   text-decoration: none;
   text-align: center;
-  background-color: map-get($color, "light");
+  background-color: var(--light);
   font-family: 'Josefin Sans';
   font-weight: bold;
-  border-right: map-get($color, "dark");
+  border-right: var(--dark);
 }
 ._landing {
   text-align: center;
@@ -34,7 +34,7 @@ $color: (
 }
 ._button {
   border: 1px solid black;
-  background-color: map-get($color, "light");
+  background-color: var(--light);
   border-radius: 2px;
   cursor: pointer;
   font-family: 'Josefin Sans';
@@ -49,7 +49,7 @@ $color: (
   margin-bottom: 20px;
 }
 ._button:hover {
-  background-color: map-get($color, "dark");
+  background-color: var(--dark);
   color: black;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
