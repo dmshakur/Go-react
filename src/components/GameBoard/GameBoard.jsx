@@ -71,13 +71,6 @@ class GameBoard extends Component {
 
   boardRender = e => {
     let x, tempBoardPoints = this.state.boardPoints
-    // Object.keys(tempBoardPointsTact).map(obj => {
-    //   for (let i = 0; i < difficulty[this.props.gameDiff][0]; i++) {
-    //     if (obj[i].piece !== "free") {
-    //        tempBoardPoints[i] = <Point onClick={this.handlePointClick} pos={i}><Stone className={styles[obj.piece]} /></Point>
-    //     }
-    //   }
-    // })
     for (x in tempBoardPoints) {
       if (this.state.boardPointsTact[x].piece !== "free") {
         tempBoardPoints[x] = <Point><Stone className={styles[this.state.boardPointsTact[x].piece]} /></Point>
