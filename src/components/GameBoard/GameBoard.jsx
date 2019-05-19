@@ -27,9 +27,9 @@ class GameBoard extends Component {
       playerTurn: "black", // Black always initiates the game
       waitingPlayer: "white",
       myColor: "",
-      boardPoints: [],     // This is the array that will contain all the <Point /> elements to be rendered, I do not think that this should be used after it is first used, I think
-      boardPointsTact: {}, // This is the information for every square which all have a copy of tactInfo in them
-      prevBoardPointsTact: {},
+      boardPoints: [], // This is the array that will contain all the <Point /> elements to be rendered, I do not think that this should be used after it is first used, I think
+      boardPointsTact: [], // This is the information for every square which all have a copy of tactInfo in them
+      prevBoardPointsTact: [],
       chains: [],
       currentChain: 0,
       elapsedTime: 0,
@@ -43,6 +43,11 @@ class GameBoard extends Component {
       },
       turnData: []
     }
+    this.handleChainLinks = this.handleChainLinks.bind(this)
+    this.boardGen = this.boardGen.bind(this)
+    this.handleTurnChange = this.handleTurnChange.bind(this)
+    this.handleTactChange = this.handleTactChange.bind(this)
+    this.handleChainLinks = this.handleChainLinks.bind(this)
   }
 
   boardGen = num => { // For initialization of the board only
@@ -50,14 +55,15 @@ class GameBoard extends Component {
     let tempBoardPointsTact = {}
     for (let i = 0; i < num; i++) {
       tempBoardPointsTact[i] = tactInfo
-      tempBoardPoints.push(<Point handlePointClick={(e) => this.handlePointClick(i, e)} key={i} pos={i} />)
+      tempBoardPoints.push(<Point handlePointClick={(e) => this.handlePointClick(i, e)} pos={i} />)
     }
     this.setState({
       boardPointsTact: tempBoardPointsTact,
       boardPoints: tempBoardPoints,
       stonesCount: {
         whiteReserves: (difficulty[this.props.gameDiff][2] - 1),
-        blackReserves: difficulty[this.props.gameDiff][2]}
+        blackReserves: difficulty[this.props.gameDiff][2]
+      }
     })
   }
 
@@ -85,8 +91,7 @@ class GameBoard extends Component {
     // old links from a copy of the chainId array, then replace the old with the new chainId
 
     let mergeChains = [], tempChains = this.state.chains, x, tempBoardPointsTact // Getting all the chain ID's here
-    arr.map(num => {
-      console.log(this.state.boardPointsTact[num])
+    arr.forEach(function(num) {
       if (this.state.boardPointsTact[num].piece === this.state.playerTurn)
         mergeChains.push(this.state.boardPointsTact[num].chainId)
     })
@@ -103,10 +108,8 @@ class GameBoard extends Component {
         }
       })
       this.setState({currentChain: this.state.currentChain + 1, chains: tempChains})
-      return pointTact
     } else if (mergeChains.length === 1) {
       pointTact.chainId = mergeChains[0]
-      return pointTact
     }
   }
 
@@ -114,41 +117,46 @@ class GameBoard extends Component {
     // Check surrounding areas links etc to determine how the state of the tactInfo should change
     // Setting the IFF's below
     // Need to further edit below, need to edit the IFF's of pieces adjacent
-    const num = difficulty[this.props.gameDiff][3]
+    let num = difficulty[this.props.gameDiff][3], tempPointTact = pointTact, chainIdArr = []
 
-    pos - 1 < 0 ?
-      pointTact.rightIff = this.state.waitingPlayer
-      : pointTact.rightIff = this.state.boardPointsTact[pos - 1].piece
-    pos - num < 0 ?
-      pointTact.toptIff = this.state.waitingPlayer
-      : pointTact.topIff = this.state.boardPointsTact[pos - num].piece
-    pos + 1 > (difficulty[this.props.gameDiff][0] - 1) ?
-      pointTact.leftIff = this.state.waitingPlayer
-      : pointTact.leftIff = this.state.boardPointsTact[pos + 1].piece
-    pos + num > (difficulty[this.props.gameDiff][0] - 1) ?
-      pointTact.bottomIff = this.state.waitingPlayer
-      : pointTact.bottomIff = this.state.boardPointsTact[pos + num].piece
+    // pos - 1 < 0 ? tempPointTact.rightIff = this.state.waitingPlayer :
+    tempPointTact.rightIff = this.state.boardPointsTact[pos - 1].piece
+    // pos - num < 0 ? tempPointTact.toptIff = this.state.waitingPlayer :
+    tempPointTact.topIff = this.state.boardPointsTact[pos - num].piece
+    // pos + 1 > (difficulty[this.props.gameDiff][0] - 1) ? tempPointTact.leftIff = this.state.waitingPlayer :
+    tempPointTact.leftIff = this.state.boardPointsTact[pos + 1].piece
+    // pos + num > (difficulty[this.props.gameDiff][0] - 1) ? tempPointTact.bottomIff = this.state.waitingPlayer :
+    tempPointTact.bottomIff = this.state.boardPointsTact[pos + num].piece
 
-    let arr = []
-    if (pointTact.rightIff === this.state.playerTurn) arr.push(pos - 1)
-    if (pointTact.topIff === this.state.playerTurn) arr.push(pos - num)
-    if (pointTact.leftIff === this.state.playerTurn) arr.push(pos + 1)
-    if (pointTact.bottomIff === this.state.playerTurn) arr.push(pos + num)
-    if (arr.length > 0) {
-      this.handleChainLinks(pointTact, arr)
-      return pointTact
+    if (tempPointTact.rightIff === this.state.playerTurn && tempPointTact.rightIff !== null) {
+      chainIdArr.push(this.state.boardPointsTact[pos - 1].chainId)
+    }
+    if (tempPointTact.topIff === this.state.playerTurn && tempPointTact.topIff !== null) {
+      chainIdArr.push(this.state.boardPointsTact[pos - num].chainId)
+    }
+    if (tempPointTact.leftIff === this.state.playerTurn && tempPointTact.leftIff !== null) {
+      chainIdArr.push(this.state.boardPointsTact[pos + 1].chainId)
+    }
+    if (tempPointTact.bottomIff === this.state.playerTurn && tempPointTact.bottomIff !== null) {
+      chainIdArr.push(this.state.boardPointsTact[pos + num].chainId)
+    }
+    if (chainIdArr.length > 0) {
+      this.handleChainLinks(tempPointTact, chainIdArr)
+      return tempPointTact
     } else {
-      pointTact.chainId = this.state.currentChain + 1
+      tempPointTact.chainId = this.state.currentChain + 1
       this.setState({currentChain: this.state.currentChain + 1})
-      return pointTact
+      return tempPointTact
     }
   }
 
   handlePointClick = (pos, e) => { // Function that is triggered on click of a div where a go piece is placeable
+    e.preventDefault()
     if (this.state.boardPointsTact[pos].piece === "black" || this.state.boardPointsTact[pos].piece === "white") return
     let tempBoardPointsTact = this.state.boardPointsTact
     tempBoardPointsTact[pos].piece = this.state.playerTurn
-    tempBoardPointsTact[pos] = this.handleTactChange(tempBoardPointsTact[pos], pos)
+    let temp = this.handleTactChange(tempBoardPointsTact[pos], pos)
+    tempBoardPointsTact[pos] = temp
     this.setState({boardPointsTact: tempBoardPointsTact})
     this.handleTurnChange()
     this.boardRender()

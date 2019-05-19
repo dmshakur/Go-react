@@ -19,16 +19,30 @@ class App extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(firebaseUser => {
-      firebaseUser ?
+      if (firebaseUser) {
         this.setState({
           user: firebaseUser.displayName,
           isAuthenticated: true
         })
-        :
+        if (true) {
+          // firebase.database().ref('go-react-alphabeta/users/' + firebaseUser).set({
+          //   name: firebaseUser.displayName,
+          //   email: firebaseUser.email,
+          //   profilePic: firebaseUser.photoURL
+          // })
+          let storageRef = firebase.storage().ref('go-react-alphabeta/user/' + firebaseUser)
+          storageRef.put({
+            name: firebaseUser.displayName,
+            email: firebaseUser.email,
+            profilePic: firebaseUser.photoURL
+          })
+        }
+      } else {
         this.setState({
           user: null,
           isAuthenticated: false
         })
+      }
     })
   }
 
