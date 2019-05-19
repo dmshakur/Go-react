@@ -1,15 +1,15 @@
 {
-  "main.css": "/Go-react/static/css/main.ca781d32.chunk.css",
-  "main.js": "/Go-react/static/js/main.8f59f33b.chunk.js",
-  "main.js.map": "/Go-react/static/js/main.8f59f33b.chunk.js.map",
+  "main.css": "/Go-react/static/css/main.5f466e35.chunk.css",
+  "main.js": "/Go-react/static/js/main.607d4018.chunk.js",
+  "main.js.map": "/Go-react/static/js/main.607d4018.chunk.js.map",
   "runtime~main.js": "/Go-react/static/js/runtime~main.c2042d6e.js",
   "runtime~main.js.map": "/Go-react/static/js/runtime~main.c2042d6e.js.map",
-  "static/js/2.c35de49c.chunk.js": "/Go-react/static/js/2.c35de49c.chunk.js",
-  "static/js/2.c35de49c.chunk.js.map": "/Go-react/static/js/2.c35de49c.chunk.js.map",
+  "static/js/2.692e325a.chunk.js": "/Go-react/static/js/2.692e325a.chunk.js",
+  "static/js/2.692e325a.chunk.js.map": "/Go-react/static/js/2.692e325a.chunk.js.map",
   "index.html": "/Go-react/index.html",
-  "precache-manifest.e87ece41ffa3657fa2bed6e5b09037a1.js": "/Go-react/precache-manifest.e87ece41ffa3657fa2bed6e5b09037a1.js",
+  "precache-manifest.c9f1affe30fa235ef74b7d1620a09095.js": "/Go-react/precache-manifest.c9f1affe30fa235ef74b7d1620a09095.js",
   "service-worker.js": "/Go-react/service-worker.js",
-  "static/css/main.ca781d32.chunk.css.map": "/Go-react/static/css/main.ca781d32.chunk.css.map",
-  "static/media/App.fonts.scss": "/Go-react/static/media/Ailerons.317c83ea.otf",
+  "static/css/main.5f466e35.chunk.css.map": "/Go-react/static/css/main.5f466e35.chunk.css.map",
+  "static/media/App.fonts.css": "/Go-react/static/media/Ailerons.317c83ea.otf",
   "static/media/go.png": "/Go-react/static/media/go.4c850590.png"
 }
