@@ -9,7 +9,6 @@ import GameBoard from '../../components/GameBoard/GameBoard'
 class App extends Component {
 
   state = {
-    timers: {},
     user: null,
     username: null,
     gameDiff: "",
@@ -19,24 +18,21 @@ class App extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(firebaseUser => {
+      let storageRef = firebase.database().ref('users/' + firebaseUser.displayName)
       if (firebaseUser) {
         this.setState({
           user: firebaseUser.displayName,
           isAuthenticated: true
         })
-        if (true) {
-          // firebase.database().ref('go-react-alphabeta/users/' + firebaseUser).set({
-          //   name: firebaseUser.displayName,
-          //   email: firebaseUser.email,
-          //   profilePic: firebaseUser.photoURL
-          // })
-          let storageRef = firebase.storage().ref('go-react-alphabeta/user/' + firebaseUser)
-          storageRef.put({
-            name: firebaseUser.displayName,
-            email: firebaseUser.email,
-            profilePic: firebaseUser.photoURL
-          })
-        }
+        storageRef.child('email').once('value', function(snapshot) {
+          if (!snapshot.exists()) {
+            storageRef.set({
+              name: firebaseUser.displayName,
+              email: firebaseUser.email,
+              profilePic: firebaseUser.photoURL
+            })
+          }
+        })
       } else {
         this.setState({
           user: null,
@@ -51,7 +47,7 @@ class App extends Component {
     firebase.auth().signInWithPopup(provider)
     .then(result => {
       this.setState({username: result.displayName})
-      console.log("User Logged In Successfully", this.state.user)
+      // console.log("User Logged In Successfully", this.state.user)
     })
     .catch(error => {
       console.log("Something Went Wrong: ", error.message)
@@ -76,7 +72,7 @@ class App extends Component {
   render() {
     return (
       <div className={styles._app}>
-        <div className={styles._sidebar}> {/*Sidebar*/}
+        <div className={styles._sidebar}> {/* Sidebar */}
           <h1>GO</h1>
           <div className={styles._user}>{this.state.user}</div>
           <div>
@@ -107,12 +103,18 @@ class App extends Component {
             </div>
             :
             <div className={styles._landing}>
+              <div>Forums</div>
+              <div>High Scores</div>
+              <div></div>
+              <div></div>
+              {/*
               <img alt={"A small go board"} src={go} />
               <p className={styles._para}>Go is one of the oldest board games played by humankind.
                 It has stood the test of time and to this day remains of the most popular and challenging games of strategy.
                 Originating in the Zhou dynasty of 1046-256 BC, it is quite possibly the oldest continuously played board games on Earth.
                 I recommend that you read about it on wikipedia here. <a href={"https://en.wikipedia.org/wiki/Go_(game)"}>Go Wiki Page</a>
               </p>
+              */}
             </div>
           }
         </div>

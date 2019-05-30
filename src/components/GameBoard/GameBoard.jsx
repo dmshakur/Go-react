@@ -55,7 +55,7 @@ class GameBoard extends Component {
     let tempBoardPointsTact = {}
     for (let i = 0; i < num; i++) {
       tempBoardPointsTact[i] = tactInfo
-      tempBoardPoints.push(<Point handlePointClick={(e) => this.handlePointClick(i, e)} pos={i} />)
+      tempBoardPoints.push(<Point handlePointClick={(e) => this.handlePointClick(i, e)} key={i} pos={i} />)
     }
     this.setState({
       boardPointsTact: tempBoardPointsTact,
@@ -90,7 +90,7 @@ class GameBoard extends Component {
     // convert all links to have the same chainId then delete all the
     // old links from a copy of the chainId array, then replace the old with the new chainId
 
-    let mergeChains = [], tempChains = this.state.chains, x, tempBoardPointsTact // Getting all the chain ID's here
+    let x, mergeChains = [], tempChains = this.state.chains, tempBoardPointsTact // Getting all the chain ID's here
     arr.forEach(function(num) {
       if (this.state.boardPointsTact[num].piece === this.state.playerTurn)
         mergeChains.push(this.state.boardPointsTact[num].chainId)
@@ -151,10 +151,12 @@ class GameBoard extends Component {
   }
 
   handlePointClick = (pos, e) => { // Function that is triggered on click of a div where a go piece is placeable
-    e.preventDefault()
+    // e.preventDefault()
+    console.log(e.target.pos)
     if (this.state.boardPointsTact[pos].piece === "black" || this.state.boardPointsTact[pos].piece === "white") return
     let tempBoardPointsTact = this.state.boardPointsTact
     tempBoardPointsTact[pos].piece = this.state.playerTurn
+    console.log(this.state.boardPointsTact)
     let temp = this.handleTactChange(tempBoardPointsTact[pos], pos)
     tempBoardPointsTact[pos] = temp
     this.setState({boardPointsTact: tempBoardPointsTact})
