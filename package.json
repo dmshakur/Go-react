@@ -12,7 +12,7 @@
     "react-scripts": "1.0.13"
   },
   "dependencies": {
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "firebase": "^6.0.2",
     "firebase-tools": "^6.10.0",
     "gh-pages": "^2.0.1",
